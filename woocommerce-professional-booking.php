@@ -838,10 +838,13 @@ class WC_Professional_Booking {
 
         $settings = $this->get_settings();
 
-        // ثبت و لود CSS سفارشی با اولویت بالا
-        wp_register_style('wc-pro-booking-style', false);
-        wp_enqueue_style('wc-pro-booking-style');
-        wp_add_inline_style('wc-pro-booking-style', $this->get_custom_css($settings));
+        // لود فایل CSS فیزیکی با اولویت بالا
+        $css_file = plugin_dir_url(__FILE__) . 'wc-pro-booking-styles.css';
+        wp_enqueue_style('wc-pro-booking-main', $css_file, array(), '1.0.0', 'all');
+
+        // اضافه کردن CSS با رنگ‌های دینامیک
+        $dynamic_css = $this->get_dynamic_css($settings);
+        wp_add_inline_style('wc-pro-booking-main', $dynamic_css);
 
         // JavaScript فقط در صفحه محصول
         if (is_product()) {
@@ -856,6 +859,63 @@ class WC_Professional_Booking {
                 'settings' => $settings
             ));
         }
+    }
+
+    // CSS دینامیک فقط برای رنگ‌ها
+    private function get_dynamic_css($settings) {
+        $primary = $settings['primary_color'];
+        $secondary = $settings['secondary_color'];
+        $accent = $settings['accent_color'];
+
+        return "
+        /* رنگ‌های دینامیک */
+        .wc-pro-cart-header,
+        .wc-pro-checkout-header {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+        }
+
+        .woocommerce-cart-form table.cart thead {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+        }
+
+        .woocommerce-cart-form .quantity input.qty {
+            border-color: {$secondary} !important;
+        }
+
+        .woocommerce-cart-form .quantity input.qty:focus {
+            border-color: {$primary} !important;
+        }
+
+        .woocommerce-cart-form .product-price,
+        .woocommerce-cart-form .product-subtotal {
+            color: {$accent} !important;
+        }
+
+        .woocommerce-cart-form button[name='update_cart'],
+        .cart-collaterals .wc-proceed-to-checkout a,
+        #place_order {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+        }
+
+        .cart-collaterals h2,
+        .woocommerce-billing-fields h3,
+        .woocommerce-shipping-fields h3,
+        .woocommerce-additional-fields h3 {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+        .wc-pro-field input:focus,
+        .wc-pro-field select:focus,
+        .wc-pro-field textarea:focus {
+            border-color: {$primary} !important;
+        }
+
+        .progress-step.active .step-icon {
+            color: {$primary} !important;
+        }
+        ";
     }
 
     // CSS سفارشی
