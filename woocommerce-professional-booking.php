@@ -838,13 +838,8 @@ class WC_Professional_Booking {
 
         $settings = $this->get_settings();
 
-        // لود فایل CSS فیزیکی با اولویت بالا
-        $css_file = plugin_dir_url(__FILE__) . 'wc-pro-booking-styles.css';
-        wp_enqueue_style('wc-pro-booking-main', $css_file, array(), '1.0.0', 'all');
-
-        // اضافه کردن CSS با رنگ‌های دینامیک
-        $dynamic_css = $this->get_dynamic_css($settings);
-        wp_add_inline_style('wc-pro-booking-main', $dynamic_css);
+        // اضافه کردن تمام CSS به صورت inline
+        wp_add_inline_style('woocommerce-general', $this->get_custom_css($settings));
 
         // JavaScript فقط در صفحه محصول
         if (is_product()) {
@@ -861,64 +856,7 @@ class WC_Professional_Booking {
         }
     }
 
-    // CSS دینامیک فقط برای رنگ‌ها
-    private function get_dynamic_css($settings) {
-        $primary = $settings['primary_color'];
-        $secondary = $settings['secondary_color'];
-        $accent = $settings['accent_color'];
-
-        return "
-        /* رنگ‌های دینامیک */
-        .wc-pro-cart-header,
-        .wc-pro-checkout-header {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
-        }
-
-        .woocommerce-cart-form table.cart thead {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
-        }
-
-        .woocommerce-cart-form .quantity input.qty {
-            border-color: {$secondary} !important;
-        }
-
-        .woocommerce-cart-form .quantity input.qty:focus {
-            border-color: {$primary} !important;
-        }
-
-        .woocommerce-cart-form .product-price,
-        .woocommerce-cart-form .product-subtotal {
-            color: {$accent} !important;
-        }
-
-        .woocommerce-cart-form button[name='update_cart'],
-        .cart-collaterals .wc-proceed-to-checkout a,
-        #place_order {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
-        }
-
-        .cart-collaterals h2,
-        .woocommerce-billing-fields h3,
-        .woocommerce-shipping-fields h3,
-        .woocommerce-additional-fields h3 {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-        }
-
-        .wc-pro-field input:focus,
-        .wc-pro-field select:focus,
-        .wc-pro-field textarea:focus {
-            border-color: {$primary} !important;
-        }
-
-        .progress-step.active .step-icon {
-            color: {$primary} !important;
-        }
-        ";
-    }
-
-    // CSS سفارشی
+    // CSS سفارشی - تمام استایل‌ها در یک فایل
     private function get_custom_css($settings) {
         $primary = $settings['primary_color'];
         $secondary = $settings['secondary_color'];
@@ -959,9 +897,438 @@ class WC_Professional_Booking {
         ' : '';
 
         return "
+        /* WooCommerce Professional Booking - All Styles */
         {$animations}
 
-        /* دکمه رزرو */
+        /* ========== سبد خرید - هدر ========== */
+        .wc-pro-cart-header {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            color: #fff !important;
+            padding: 40px !important;
+            border-radius: 20px !important;
+            margin-bottom: 30px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .wc-pro-cart-header .cart-header-content {
+            text-align: center !important;
+        }
+
+        .wc-pro-cart-header .cart-title {
+            font-size: 36px !important;
+            margin: 0 0 10px 0 !important;
+            font-weight: 800 !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
+            color: #fff !important;
+        }
+
+        .wc-pro-cart-header .cart-subtitle {
+            font-size: 18px !important;
+            opacity: 0.95 !important;
+            margin: 0 !important;
+            color: #fff !important;
+        }
+
+        .wc-pro-cart-header .cart-progress-bar {
+            display: flex !important;
+            justify-content: space-around !important;
+            margin-top: 30px !important;
+            padding-top: 25px !important;
+            border-top: 2px solid rgba(255,255,255,0.3) !important;
+        }
+
+        .wc-pro-cart-header .progress-step {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 8px !important;
+            opacity: 0.5 !important;
+            transition: all 0.4s !important;
+        }
+
+        .wc-pro-cart-header .progress-step.active {
+            opacity: 1 !important;
+            transform: scale(1.1) !important;
+        }
+
+        .wc-pro-cart-header .step-icon {
+            font-size: 28px !important;
+            background: rgba(255,255,255,0.2) !important;
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .wc-pro-cart-header .progress-step.active .step-icon {
+            background: #fff !important;
+            color: {$primary} !important;
+            box-shadow: 0 5px 20px rgba(255,255,255,0.5) !important;
+        }
+
+        /* ========== جدول سبد خرید ========== */
+        .woocommerce-cart-form {
+            background: #fff !important;
+            border-radius: 20px !important;
+            padding: 30px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08) !important;
+            margin-bottom: 30px !important;
+        }
+
+        .woocommerce-cart-form table.cart {
+            border: none !important;
+        }
+
+        .woocommerce-cart-form table.cart thead {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+        }
+
+        .woocommerce-cart-form table.cart thead th {
+            padding: 20px 15px !important;
+            border: none !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            text-align: center !important;
+            color: #fff !important;
+        }
+
+        .woocommerce-cart-form table.cart tbody tr {
+            border-bottom: 1px solid #f0f0f0 !important;
+            transition: all 0.3s !important;
+        }
+
+        .woocommerce-cart-form table.cart tbody tr:hover {
+            background: #f9f9f9 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+        }
+
+        .woocommerce-cart-form table.cart tbody td {
+            padding: 25px 15px !important;
+            border: none !important;
+            vertical-align: middle !important;
+        }
+
+        /* فیلد تعداد */
+        .woocommerce-cart-form .quantity input.qty {
+            width: 80px !important;
+            height: 45px !important;
+            text-align: center !important;
+            border: 2px solid {$secondary} !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            background: #f8f9fa !important;
+            transition: all 0.3s;
+            padding: 0 10px !important;
+        }
+
+        .woocommerce-cart-form .quantity input.qty:focus {
+            outline: none !important;
+            border-color: {$primary} !important;
+            background: #fff !important;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1) !important;
+        }
+
+        /* قیمت */
+        .woocommerce-cart-form .product-price,
+        .woocommerce-cart-form .product-subtotal {
+            font-size: 20px !important;
+            font-weight: 700 !important;
+            color: {$accent} !important;
+        }
+
+        /* دکمه حذف */
+        .woocommerce-cart-form .product-remove a {
+            color: #ff4444 !important;
+            background: #fff0f0 !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 50% !important;
+            transition: all 0.3s !important;
+            text-decoration: none !important;
+        }
+
+        .woocommerce-cart-form .product-remove a:hover {
+            background: #ff4444 !important;
+            color: #fff !important;
+            transform: rotate(90deg) !important;
+        }
+
+        /* دکمه به‌روزرسانی */
+        .woocommerce-cart-form button[name='update_cart'] {
+            background: linear-gradient(135deg, {$secondary} 0%, {$primary} 100%) !important;
+            color: #fff !important;
+            border: none !important;
+            padding: 15px 35px !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3) !important;
+            transition: all 0.3s;
+        }
+
+        .woocommerce-cart-form button[name='update_cart']:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5) !important;
+        }
+
+        /* جمع کل سبد */
+        .cart-collaterals {
+            background: #fff !important;
+            border-radius: 20px !important;
+            padding: 30px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08) !important;
+        }
+
+        .cart-collaterals h2 {
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            margin-bottom: 25px !important;
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+        .cart-collaterals .wc-proceed-to-checkout a {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            color: #fff !important;
+            padding: 20px 40px !important;
+            border-radius: 15px !important;
+            font-size: 20px !important;
+            font-weight: 700 !important;
+            text-align: center !important;
+            display: block !important;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4) !important;
+            text-decoration: none !important;
+            transition: all 0.3s;
+        }
+
+        .cart-collaterals .wc-proceed-to-checkout a:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.6) !important;
+        }
+
+        /* فوتر سبد */
+        .wc-pro-cart-footer {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+            padding: 30px !important;
+            border-radius: 20px !important;
+            margin-top: 30px !important;
+        }
+
+        .wc-pro-cart-footer .cart-features {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+            gap: 20px !important;
+        }
+
+        .wc-pro-cart-footer .feature-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 15px !important;
+            background: #fff !important;
+            padding: 20px !important;
+            border-radius: 15px !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+            transition: all 0.3s;
+        }
+
+        .wc-pro-cart-footer .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .wc-pro-cart-footer .feature-icon {
+            font-size: 32px !important;
+        }
+
+        .wc-pro-cart-footer .feature-text {
+            font-size: 15px !important;
+            font-weight: 600 !important;
+        }
+
+        /* ========== صفحه پرداخت - هدر ========== */
+        .wc-pro-checkout-header {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            color: #fff !important;
+            padding: 40px !important;
+            border-radius: 20px !important;
+            margin-bottom: 30px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .wc-pro-checkout-header .checkout-header-content {
+        }
+
+        .wc-pro-checkout-header .checkout-title {
+            font-size: 36px !important;
+            margin: 0 0 8px 0 !important;
+            font-weight: 800 !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
+            color: #fff !important;
+        }
+
+        .wc-pro-checkout-header .checkout-subtitle {
+            margin: 0 !important;
+            opacity: 0.95 !important;
+            font-size: 18px !important;
+            color: #fff !important;
+        }
+
+        .wc-pro-checkout-header .checkout-security-badge {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            background: rgba(255,255,255,0.25) !important;
+            padding: 15px 25px !important;
+            border-radius: 30px !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+        }
+
+        .checkout-security-badge .security-icon {
+            font-size: 28px;
+        }
+
+        /* فرم checkout */
+        .woocommerce-checkout {
+            background: #fff !important;
+            border-radius: 20px !important;
+            padding: 40px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08) !important;
+        }
+
+        .woocommerce-billing-fields h3,
+        .woocommerce-shipping-fields h3,
+        .woocommerce-additional-fields h3 {
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            margin-bottom: 25px !important;
+            padding-bottom: 15px !important;
+            border-bottom: 3px solid #f0f0f0 !important;
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+        .wc-pro-field {
+            margin-bottom: 25px;
+        }
+
+        .wc-pro-field label {
+            font-weight: 600;
+            color: {$text};
+            margin-bottom: 8px;
+            display: block;
+            font-size: 15px;
+        }
+
+        .wc-pro-field input,
+        .wc-pro-field select,
+        .wc-pro-field textarea {
+            width: 100% !important;
+            border: 2px solid #e0e0e0 !important;
+            border-radius: 12px !important;
+            padding: 15px 18px !important;
+            font-size: 15px !important;
+            background: #f8f9fa !important;
+            transition: all 0.3s;
+        }
+
+        .wc-pro-field input:focus,
+        .wc-pro-field select:focus,
+        .wc-pro-field textarea:focus {
+            border-color: {$primary} !important;
+            background: #fff !important;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1) !important;
+            outline: none !important;
+        }
+
+        .wc-pro-field input::placeholder {
+            color: #999;
+        }
+
+        /* دکمه ثبت سفارش */
+        #place_order {
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            color: #fff !important;
+            padding: 22px 50px !important;
+            border: none !important;
+            border-radius: 15px !important;
+            font-size: 22px !important;
+            font-weight: 800 !important;
+            cursor: pointer !important;
+            width: 100% !important;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4) !important;
+            margin-top: 20px !important;
+            text-transform: uppercase !important;
+            transition: all 0.4s;
+        }
+
+        #place_order:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6) !important;
+        }
+
+        /* فوتر checkout */
+        .wc-pro-checkout-footer {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+            padding: 40px !important;
+            border-radius: 20px !important;
+            margin-top: 30px !important;
+        }
+
+        .wc-pro-checkout-footer .checkout-trust-badges {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+            gap: 25px !important;
+        }
+
+        .wc-pro-checkout-footer .trust-badge {
+            display: flex !important;
+            align-items: center !important;
+            gap: 20px !important;
+            background: #fff !important;
+            padding: 25px !important;
+            border-radius: 15px !important;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05) !important;
+            transition: all 0.3s;
+        }
+
+        .wc-pro-checkout-footer .trust-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .wc-pro-checkout-footer .badge-icon {
+            font-size: 40px !important;
+        }
+
+        .badge-content strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: {$text};
+            margin-bottom: 5px;
+        }
+
+        .badge-content span {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* ========== دکمه رزرو ========== */
         .wc-pro-booking-wrapper {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 30px;
@@ -1090,118 +1457,6 @@ class WC_Professional_Booking {
             font-size: 24px;
         }
 
-        /* سبد خرید */
-        .wc-pro-cart-header {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            color: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            animation: fadeInUp 0.5s ease-out;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        }
-
-        .cart-header-content {
-            text-align: center;
-        }
-
-        .cart-title {
-            font-size: 36px;
-            margin: 0 0 10px 0;
-            font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .cart-subtitle {
-            font-size: 18px;
-            opacity: 0.95;
-            margin: 0;
-        }
-
-        .cart-progress-bar {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .progress-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.5;
-            transition: all 0.4s;
-        }
-
-        .progress-step.active {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .step-icon {
-            font-size: 28px;
-            background: rgba(255,255,255,0.2);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .progress-step.active .step-icon {
-            background: #fff;
-            color: {$primary};
-            box-shadow: 0 5px 20px rgba(255,255,255,0.5);
-        }
-
-        /* جدول سبد خرید */
-        .woocommerce-cart-form {
-            background: #fff !important;
-            border-radius: 20px !important;
-            padding: 30px !important;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08) !important;
-            margin-bottom: 30px !important;
-        }
-
-        .woocommerce-cart-form table.cart {
-            border: none !important;
-        }
-
-        .woocommerce-cart-form table.cart thead {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
-            color: #fff !important;
-        }
-
-        .woocommerce-cart-form table.cart thead th {
-            padding: 20px 15px !important;
-            border: none !important;
-            font-weight: 600 !important;
-            font-size: 16px !important;
-            text-align: center !important;
-        }
-
-        .woocommerce-cart-form table.cart tbody tr {
-            background: #fff;
-            transition: all 0.3s;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .woocommerce-cart-form table.cart tbody tr:hover {
-            background: #f9f9f9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .woocommerce-cart-form table.cart tbody td {
-            padding: 25px 15px;
-            border: none;
-            vertical-align: middle;
-        }
-
         /* تصویر محصول */
         .wc-pro-cart-thumbnail img {
             border-radius: 15px;
@@ -1241,284 +1496,13 @@ class WC_Professional_Booking {
             box-shadow: 0 3px 10px rgba(255, 152, 0, 0.3);
         }
 
-        /* فیلد تعداد - استایل زیبا */
-        .woocommerce-cart-form .quantity {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .woocommerce-cart-form .quantity input.qty {
-            width: 80px !important;
-            height: 45px;
-            text-align: center;
-            border: 2px solid {$secondary} !important;
-            border-radius: 10px !important;
-            font-size: 16px !important;
-            font-weight: 600 !important;
-            color: {$text} !important;
-            background: #f8f9fa !important;
-            transition: all 0.3s;
-            padding: 0 10px !important;
-        }
-
-        .woocommerce-cart-form .quantity input.qty:focus {
-            outline: none !important;
-            border-color: {$primary} !important;
-            background: #fff !important;
-            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1) !important;
-        }
-
-        /* دکمه‌های + و - برای quantity */
-        .woocommerce-cart-form .quantity {
-            position: relative;
-        }
-
-        /* قیمت */
-        .woocommerce-cart-form .product-price,
-        .woocommerce-cart-form .product-subtotal {
-            font-size: 20px;
-            font-weight: 700;
-            color: {$accent};
-        }
-
-        /* دکمه حذف */
-        .woocommerce-cart-form .product-remove a {
-            color: #ff4444 !important;
-            background: #fff0f0;
-            width: 35px;
-            height: 35px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-            font-size: 20px;
-        }
-
-        .woocommerce-cart-form .product-remove a:hover {
-            background: #ff4444;
-            color: #fff !important;
-            transform: rotate(90deg);
-        }
-
-        /* دکمه به‌روزرسانی سبد */
-        .woocommerce-cart-form button[name='update_cart'] {
-            background: linear-gradient(135deg, {$secondary} 0%, {$primary} 100%);
-            color: #fff;
-            border: none;
-            padding: 15px 35px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
-        }
-
-        .woocommerce-cart-form button[name='update_cart']:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
-        }
-
-        /* جمع کل سبد */
-        .cart-collaterals {
-            background: #fff;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        }
-
-        .cart-collaterals h2 {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 25px;
-        }
-
-        .cart-collaterals table.shop_table {
-            border: none;
-            background: #f8f9fa;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .cart-collaterals table.shop_table th,
-        .cart-collaterals table.shop_table td {
-            padding: 18px 20px;
-            border: none;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .cart-collaterals table.shop_table tr.order-total th,
-        .cart-collaterals table.shop_table tr.order-total td {
-            font-size: 22px;
-            font-weight: 800;
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            color: #fff;
-        }
-
-        .cart-collaterals .wc-proceed-to-checkout a {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            color: #fff;
-            padding: 20px 40px;
-            border-radius: 15px;
-            font-size: 20px;
-            font-weight: 700;
-            text-align: center;
-            display: block;
-            transition: all 0.3s;
-            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
-            border: none;
-            text-decoration: none;
-        }
-
-        .cart-collaterals .wc-proceed-to-checkout a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.6);
-        }
-
-        /* فوتر سبد خرید */
-        .wc-pro-cart-footer {
+        .booking-order-meta {
+            margin-top: 12px;
+            padding: 15px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 30px;
-            border-radius: 20px;
-            margin-top: 30px;
-        }
-
-        .cart-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .feature-icon {
-            font-size: 32px;
-        }
-
-        .feature-text {
-            font-size: 15px;
-            font-weight: 600;
-            color: {$text};
-        }
-
-        /* صفحه پرداخت */
-        .wc-pro-checkout-header {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            color: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeInUp 0.5s ease-out;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        }
-
-        .checkout-title {
-            font-size: 36px;
-            margin: 0 0 8px 0;
-            font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .checkout-subtitle {
-            margin: 0;
-            opacity: 0.95;
-            font-size: 18px;
-        }
-
-        .checkout-security-badge {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.25);
-            padding: 15px 25px;
-            border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .security-icon {
-            font-size: 28px;
-        }
-
-        /* فرم checkout */
-        .woocommerce-checkout {
-            background: #fff !important;
-            border-radius: 20px !important;
-            padding: 40px !important;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08) !important;
-        }
-
-        .woocommerce-billing-fields h3,
-        .woocommerce-shipping-fields h3,
-        .woocommerce-additional-fields h3 {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            background-clip: text !important;
-            font-size: 24px !important;
-            font-weight: 800 !important;
-            margin-bottom: 25px !important;
-            padding-bottom: 15px !important;
-            border-bottom: 3px solid #f0f0f0 !important;
-        }
-
-        .wc-pro-field {
-            margin-bottom: 25px;
-        }
-
-        .wc-pro-field label {
-            font-weight: 600;
-            color: {$text};
-            margin-bottom: 8px;
-            display: block;
-            font-size: 15px;
-        }
-
-        .wc-pro-field input,
-        .wc-pro-field select,
-        .wc-pro-field textarea {
-            width: 100%;
-            border: 2px solid #e0e0e0 !important;
-            border-radius: 12px !important;
-            padding: 15px 18px !important;
-            transition: all 0.3s;
-            font-size: 15px;
-            background: #f8f9fa !important;
-        }
-
-        .wc-pro-field input:focus,
-        .wc-pro-field select:focus,
-        .wc-pro-field textarea:focus {
-            border-color: {$primary} !important;
-            background: #fff !important;
-            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1) !important;
-            outline: none !important;
-        }
-
-        .wc-pro-field input::placeholder {
-            color: #999;
+            border-radius: 10px;
+            border-right: 4px solid {$accent};
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
         }
 
         /* جدول سفارش */
@@ -1573,13 +1557,110 @@ class WC_Professional_Booking {
             padding: 25px 20px;
         }
 
-        /* روش پرداخت */
-        .woocommerce-checkout-payment {
+        .cart-collaterals table.shop_table {
+            border: none;
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .cart-collaterals table.shop_table th,
+        .cart-collaterals table.shop_table td {
+            padding: 18px 20px;
+            border: none;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .cart-collaterals table.shop_table tr.order-total th,
+        .cart-collaterals table.shop_table tr.order-total td {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
+            color: #fff;
+        }
+
+        .cart-progress-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.5;
+            transition: all 0.4s;
+        }
+
+        .progress-step.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .step-icon {
+            font-size: 28px;
+            background: rgba(255,255,255,0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .progress-step.active .step-icon {
             background: #fff;
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            color: {$primary};
+            box-shadow: 0 5px 20px rgba(255,255,255,0.5);
+        }
+
+        .cart-title {
+            font-size: 36px;
+            margin: 0 0 10px 0;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cart-subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            margin: 0;
+        }
+
+        .cart-header-content {
+            text-align: center;
+        }
+
+        .checkout-title {
+            font-size: 36px;
+            margin: 0 0 8px 0;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .checkout-subtitle {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 18px;
+        }
+
+        .checkout-security-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.25);
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .security-icon {
+            font-size: 28px;
         }
 
         .wc_payment_methods {
@@ -1607,39 +1688,50 @@ class WC_Professional_Booking {
             font-weight: 700;
         }
 
-        /* دکمه ثبت سفارش */
-        #place_order {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            color: #fff;
-            padding: 22px 50px;
-            border: none;
-            border-radius: 15px;
-            font-size: 22px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.4s;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .woocommerce-checkout-payment {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         }
 
-        #place_order:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6);
+        .woocommerce-cart-form .quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         #place_order:active {
             transform: translateY(-2px);
         }
 
-        /* فوتر checkout */
-        .wc-pro-checkout-footer {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 40px;
-            border-radius: 20px;
-            margin-top: 30px;
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .feature-icon {
+            font-size: 32px;
+        }
+
+        .feature-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: {$text};
+        }
+
+        .cart-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
 
         .checkout-trust-badges {
@@ -1668,43 +1760,133 @@ class WC_Professional_Booking {
             font-size: 40px;
         }
 
-        .badge-content strong {
-            display: block;
-            font-size: 16px;
-            font-weight: 700;
-            color: {$text};
-            margin-bottom: 5px;
-        }
-
-        .badge-content span {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .booking-order-meta {
-            margin-top: 12px;
-            padding: 15px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 10px;
-            border-right: 4px solid {$accent};
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-        }
-
-        /* ریسپانسیو */
+        /* ========== ریسپانسیو ========== */
         @media (max-width: 768px) {
             .wc-pro-cart-header,
             .wc-pro-checkout-header {
-                flex-direction: column;
-                text-align: center;
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+
+            .wc-pro-cart-header .cart-progress-bar {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
+
+            /* جدول محصولات صفحه پرداخت - موبایل */
+            .woocommerce-checkout-review-order-table {
+                display: block !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                border-radius: 15px !important;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.1) !important;
+            }
+
+            .woocommerce-checkout-review-order-table thead {
+                display: none !important;
+            }
+
+            .woocommerce-checkout-review-order-table tbody,
+            .woocommerce-checkout-review-order-table tfoot {
+                display: block !important;
+            }
+
+            .woocommerce-checkout-review-order-table tr {
+                display: block !important;
+                margin-bottom: 15px !important;
+                background: #fff !important;
+                border-radius: 12px !important;
+                padding: 15px !important;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
+                border: 2px solid #f0f0f0 !important;
+            }
+
+            .woocommerce-checkout-review-order-table tfoot tr {
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+
+            .woocommerce-checkout-review-order-table td,
+            .woocommerce-checkout-review-order-table th {
+                display: flex !important;
+                justify-content: space-between !important;
+                padding: 10px 0 !important;
+                border: none !important;
+                text-align: right !important;
+            }
+
+            .woocommerce-checkout-review-order-table td:before {
+                content: attr(data-title) !important;
+                font-weight: 700 !important;
+                color: #333 !important;
+                flex: 0 0 50% !important;
+            }
+
+            .woocommerce-checkout-review-order-table .product-name {
+                font-size: 16px !important;
+                font-weight: 700 !important;
+                border-bottom: 2px solid #f0f0f0 !important;
+                padding-bottom: 12px !important;
+                margin-bottom: 8px !important;
+            }
+
+            .woocommerce-checkout-review-order-table .product-total {
+                font-size: 18px !important;
+                font-weight: 800 !important;
+                color: {$accent} !important;
+            }
+
+            .woocommerce-checkout-review-order-table tfoot th {
+                font-size: 16px !important;
+                font-weight: 700 !important;
+                color: #333 !important;
+            }
+
+            .woocommerce-checkout-review-order-table tfoot td {
+                font-size: 18px !important;
+                font-weight: 800 !important;
+                color: {$primary} !important;
+            }
+
+            .woocommerce-checkout-review-order-table .order-total th,
+            .woocommerce-checkout-review-order-table .order-total td {
+                font-size: 22px !important;
+                padding: 15px 0 !important;
+                background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+                -webkit-background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+            }
+
+            /* عنوان‌ها در موبایل */
+            .wc-pro-cart-header .cart-title,
+            .wc-pro-checkout-header .checkout-title {
+                font-size: 28px !important;
+            }
+
+            .wc-pro-cart-header .cart-subtitle,
+            .wc-pro-checkout-header .checkout-subtitle {
+                font-size: 15px !important;
+            }
+
+            /* دکمه‌ها در موبایل */
+            .cart-collaterals .wc-proceed-to-checkout a {
+                font-size: 18px !important;
+                padding: 18px 30px !important;
+            }
+
+            #place_order {
+                font-size: 18px !important;
+                padding: 18px 35px !important;
+            }
+
+            .time-slots-container {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             }
 
             .cart-progress-bar {
                 flex-direction: column;
                 gap: 15px;
-            }
-
-            .time-slots-container {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             }
         }
 
