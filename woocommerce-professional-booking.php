@@ -831,26 +831,31 @@ class WC_Professional_Booking {
 
     // بارگذاری استایل و اسکریپت فرانت‌اند
     public function enqueue_frontend_assets() {
-        if (!is_woocommerce()) {
+        // فقط در صفحات ووکامرس
+        if (!is_cart() && !is_checkout() && !is_product() && !is_woocommerce()) {
             return;
         }
 
         $settings = $this->get_settings();
 
-        // CSS سفارشی
-        wp_add_inline_style('woocommerce-general', $this->get_custom_css($settings));
+        // ثبت و لود CSS سفارشی با اولویت بالا
+        wp_register_style('wc-pro-booking-style', false);
+        wp_enqueue_style('wc-pro-booking-style');
+        wp_add_inline_style('wc-pro-booking-style', $this->get_custom_css($settings));
 
-        // JavaScript
-        wp_enqueue_script('jquery-ui-datepicker');
-        wp_enqueue_style('jquery-ui-css', 'https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css');
+        // JavaScript فقط در صفحه محصول
+        if (is_product()) {
+            wp_enqueue_script('jquery-ui-datepicker');
+            wp_enqueue_style('jquery-ui-css', 'https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css');
 
-        wp_add_inline_script('jquery', $this->get_custom_js($settings));
+            wp_add_inline_script('jquery', $this->get_custom_js($settings));
 
-        wp_localize_script('jquery', 'wcProBooking', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('wc_pro_booking_nonce'),
-            'settings' => $settings
-        ));
+            wp_localize_script('jquery', 'wcProBooking', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('wc_pro_booking_nonce'),
+                'settings' => $settings
+            ));
+        }
     }
 
     // CSS سفارشی
@@ -1095,28 +1100,28 @@ class WC_Professional_Booking {
 
         /* جدول سبد خرید */
         .woocommerce-cart-form {
-            background: #fff;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
+            background: #fff !important;
+            border-radius: 20px !important;
+            padding: 30px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08) !important;
+            margin-bottom: 30px !important;
         }
 
         .woocommerce-cart-form table.cart {
-            border: none;
+            border: none !important;
         }
 
         .woocommerce-cart-form table.cart thead {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            color: #fff;
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            color: #fff !important;
         }
 
         .woocommerce-cart-form table.cart thead th {
-            padding: 20px 15px;
-            border: none;
-            font-weight: 600;
-            font-size: 16px;
-            text-align: center;
+            padding: 20px 15px !important;
+            border: none !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            text-align: center !important;
         }
 
         .woocommerce-cart-form table.cart tbody tr {
@@ -1399,24 +1404,24 @@ class WC_Professional_Booking {
 
         /* فرم checkout */
         .woocommerce-checkout {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            background: #fff !important;
+            border-radius: 20px !important;
+            padding: 40px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08) !important;
         }
 
         .woocommerce-billing-fields h3,
         .woocommerce-shipping-fields h3,
         .woocommerce-additional-fields h3 {
-            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #f0f0f0;
+            background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            margin-bottom: 25px !important;
+            padding-bottom: 15px !important;
+            border-bottom: 3px solid #f0f0f0 !important;
         }
 
         .wc-pro-field {
