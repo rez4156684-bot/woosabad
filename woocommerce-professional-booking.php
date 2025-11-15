@@ -1766,6 +1766,7 @@ class WC_Professional_Booking {
             .wc-pro-checkout-header {
                 flex-direction: column !important;
                 text-align: center !important;
+                padding: 25px 15px !important;
             }
 
             .wc-pro-cart-header .cart-progress-bar {
@@ -1782,28 +1783,133 @@ class WC_Professional_Booking {
                 display: none !important;
             }
 
+            #order_review {
+                padding: 15px !important;
+            }
+
+            /* فرم checkout در موبایل */
+            .woocommerce-checkout {
+                padding: 20px 15px !important;
+            }
+
+            .woocommerce-billing-fields,
+            .woocommerce-shipping-fields,
+            .woocommerce-additional-fields {
+                margin-bottom: 20px !important;
+            }
+
+            .woocommerce-billing-fields h3,
+            .woocommerce-shipping-fields h3,
+            .woocommerce-additional-fields h3 {
+                font-size: 20px !important;
+                margin-bottom: 15px !important;
+                padding-bottom: 10px !important;
+            }
+
+            /* فیلدهای فرم - هر آیتم در یک خط */
+            .wc-pro-field {
+                width: 100% !important;
+                margin-bottom: 15px !important;
+                clear: both !important;
+                float: none !important;
+            }
+
+            .wc-pro-field input,
+            .wc-pro-field select,
+            .wc-pro-field textarea {
+                width: 100% !important;
+                padding: 12px 15px !important;
+                font-size: 14px !important;
+                border-radius: 8px !important;
+            }
+
+            .wc-pro-field label {
+                font-size: 14px !important;
+                margin-bottom: 6px !important;
+            }
+
+            /* ستون‌های فرم را تک ستونه کن */
+            .woocommerce-billing-fields__field-wrapper,
+            .woocommerce-shipping-fields__field-wrapper,
+            .woocommerce-additional-fields__field-wrapper {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+            }
+
+            .woocommerce-billing-fields__field-wrapper .form-row,
+            .woocommerce-shipping-fields__field-wrapper .form-row,
+            .woocommerce-additional-fields__field-wrapper .form-row {
+                width: 100% !important;
+                float: none !important;
+                margin: 0 0 15px 0 !important;
+                padding: 0 !important;
+            }
+
+            /* دکمه‌های روش پرداخت */
+            .woocommerce-checkout-payment {
+                padding: 20px 15px !important;
+                margin-top: 20px !important;
+            }
+
+            .wc_payment_method {
+                padding: 15px !important;
+                margin-bottom: 10px !important;
+            }
+
             /* عنوان‌ها در موبایل */
             .wc-pro-cart-header .cart-title,
             .wc-pro-checkout-header .checkout-title {
-                font-size: 28px !important;
+                font-size: 24px !important;
             }
 
             .wc-pro-cart-header .cart-subtitle,
             .wc-pro-checkout-header .checkout-subtitle {
-                font-size: 15px !important;
+                font-size: 14px !important;
+            }
+
+            .checkout-security-badge {
+                padding: 12px 20px !important;
+                margin-top: 15px !important;
             }
 
             /* دکمه‌ها در موبایل */
             .cart-collaterals .wc-proceed-to-checkout a {
-                font-size: 18px !important;
-                padding: 18px 30px !important;
+                font-size: 16px !important;
+                padding: 16px 25px !important;
             }
 
             #place_order {
-                font-size: 18px !important;
-                padding: 18px 35px !important;
+                font-size: 16px !important;
+                padding: 16px 30px !important;
+                margin-top: 15px !important;
             }
 
+            /* trust badges */
+            .wc-pro-checkout-footer {
+                padding: 20px 15px !important;
+                margin-top: 20px !important;
+            }
+
+            .checkout-trust-badges {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
+
+            .trust-badge {
+                padding: 15px !important;
+            }
+
+            /* سبد خرید موبایل */
+            .woocommerce-cart-form {
+                padding: 15px !important;
+            }
+
+            .cart-collaterals {
+                padding: 20px 15px !important;
+            }
+
+            /* time slots */
             .time-slots-container {
                 grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             }
@@ -1811,6 +1917,20 @@ class WC_Professional_Booking {
             .cart-progress-bar {
                 flex-direction: column;
                 gap: 15px;
+            }
+
+            /* feature items */
+            .wc-pro-cart-footer {
+                padding: 20px 15px !important;
+            }
+
+            .cart-features {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
+
+            .feature-item {
+                padding: 15px !important;
             }
         }
 
