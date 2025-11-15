@@ -1238,7 +1238,7 @@ class WC_Professional_Booking {
         }
 
         /* دکمه به‌روزرسانی سبد */
-        .woocommerce-cart-form button[name="update_cart"] {
+        .woocommerce-cart-form button[name='update_cart'] {
             background: linear-gradient(135deg, {$secondary} 0%, {$primary} 100%);
             color: #fff;
             border: none;
@@ -1251,7 +1251,7 @@ class WC_Professional_Booking {
             box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
         }
 
-        .woocommerce-cart-form button[name="update_cart"]:hover {
+        .woocommerce-cart-form button[name='update_cart']:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
         }
@@ -1537,7 +1537,7 @@ class WC_Professional_Booking {
             background: #fff;
         }
 
-        .wc_payment_method input[type="radio"]:checked + label {
+        .wc_payment_method input[type='radio']:checked + label {
             color: {$primary};
             font-weight: 700;
         }
