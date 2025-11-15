@@ -1773,89 +1773,13 @@ class WC_Professional_Booking {
                 gap: 15px !important;
             }
 
-            /* جدول محصولات صفحه پرداخت - موبایل */
+            /* جدول محصولات صفحه پرداخت - مخفی کردن در موبایل */
             .woocommerce-checkout-review-order-table {
-                display: block !important;
-                overflow-x: auto !important;
-                -webkit-overflow-scrolling: touch !important;
-                border-radius: 15px !important;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.1) !important;
-            }
-
-            .woocommerce-checkout-review-order-table thead {
                 display: none !important;
             }
 
-            .woocommerce-checkout-review-order-table tbody,
-            .woocommerce-checkout-review-order-table tfoot {
-                display: block !important;
-            }
-
-            .woocommerce-checkout-review-order-table tr {
-                display: block !important;
-                margin-bottom: 15px !important;
-                background: #fff !important;
-                border-radius: 12px !important;
-                padding: 15px !important;
-                box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
-                border: 2px solid #f0f0f0 !important;
-            }
-
-            .woocommerce-checkout-review-order-table tfoot tr {
-                border: none !important;
-                background: transparent !important;
-                box-shadow: none !important;
-            }
-
-            .woocommerce-checkout-review-order-table td,
-            .woocommerce-checkout-review-order-table th {
-                display: flex !important;
-                justify-content: space-between !important;
-                padding: 10px 0 !important;
-                border: none !important;
-                text-align: right !important;
-            }
-
-            .woocommerce-checkout-review-order-table td:before {
-                content: attr(data-title) !important;
-                font-weight: 700 !important;
-                color: #333 !important;
-                flex: 0 0 50% !important;
-            }
-
-            .woocommerce-checkout-review-order-table .product-name {
-                font-size: 16px !important;
-                font-weight: 700 !important;
-                border-bottom: 2px solid #f0f0f0 !important;
-                padding-bottom: 12px !important;
-                margin-bottom: 8px !important;
-            }
-
-            .woocommerce-checkout-review-order-table .product-total {
-                font-size: 18px !important;
-                font-weight: 800 !important;
-                color: {$accent} !important;
-            }
-
-            .woocommerce-checkout-review-order-table tfoot th {
-                font-size: 16px !important;
-                font-weight: 700 !important;
-                color: #333 !important;
-            }
-
-            .woocommerce-checkout-review-order-table tfoot td {
-                font-size: 18px !important;
-                font-weight: 800 !important;
-                color: {$primary} !important;
-            }
-
-            .woocommerce-checkout-review-order-table .order-total th,
-            .woocommerce-checkout-review-order-table .order-total td {
-                font-size: 22px !important;
-                padding: 15px 0 !important;
-                background: linear-gradient(135deg, {$primary} 0%, {$secondary} 100%) !important;
-                -webkit-background-clip: text !important;
-                -webkit-text-fill-color: transparent !important;
+            #order_review {
+                display: none !important;
             }
 
             /* عنوان‌ها در موبایل */
