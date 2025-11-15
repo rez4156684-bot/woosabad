@@ -1778,7 +1778,7 @@ class WC_Professional_Booking {
                 display: none !important;
             }
 
-            #order_review {
+            #order_review_heading {
                 display: none !important;
             }
 
